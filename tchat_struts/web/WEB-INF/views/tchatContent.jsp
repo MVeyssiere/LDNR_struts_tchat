@@ -6,16 +6,25 @@
 
 <section>
     <%-- affichage du formulaire pour écrire un message --%>
-    <s:form action="tchat">
-        <s:textfield name="userName" label="%{getText('Nom')}" maxlength="25"/>
-        <s:textarea key="Message" maxlength="25"/>
-        <s:submit value="%{getText('Poster')}"/>
+    <h3>Bienvenu sur le Tchat!</h3>
+    <s:form action="tchat" class="form-group">
+        <s:textfield name="userName" label="%{getText('Nom')}" maxlength="25" class="form-control" />
+        <s:textarea key="Message" maxlength="25" class="form-control" rows="3" />
+        <s:submit value="%{getText('Poster')}" class="btn btn-primary col-md" />
     </s:form>
     
     <%--affichage des messages --%>
-    <s:iterator value="list">
-        <s:property value="date_message"/>
-        <s:property value="userName"/>  <br/>
-        <s:property value="message"/><br/>
-    </s:iterator>
+    <table class="table table-striped">
+        <thead>            
+        </thead>
+        <tbody>
+            <s:iterator value="list">
+                <tr>
+                    <td> <s:property value="date_message"/></td>
+                    <td> <s:property value="userName"/> </td>
+                    <td> <s:property value="message" /></td>
+                </tr>
+        </s:iterator>            
+        </tbody>        
+    </table>
 </section>
