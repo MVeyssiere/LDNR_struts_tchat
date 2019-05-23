@@ -98,6 +98,28 @@ public class DAOTchat extends DAO<Tchat> {
     public List<Tchat> findAll() {
         ArrayList<Tchat> retObj = new ArrayList<>();
         // faut faire attention aux espaces qui doivent entouré le nom de la table
+        String sql = "SELECT * FROM " + table + " ORDER BY date_message DESC";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            // cette ensemble permet de récuperer tous les objets ayant le bon pstmt
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retObj.add(new Tchat(rs.getInt("id_tchat"),
+                        rs.getTimestamp("date_message"),
+                        rs.getString("userName"),
+                        rs.getString("message")
+                ));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOTchat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retObj;
+    }
+
+    public List<Tchat> findLastFiveMinutes() {
+        ArrayList<Tchat> retObj = new ArrayList<>();
+        // faut faire attention aux espaces qui doivent entouré le nom de la table
         String sql = "SELECT * FROM " + table + " WHERE "
                 + "date_message > date_sub(now(), interval 5 minute) ORDER BY date_message DESC";
         try {

@@ -4,6 +4,7 @@
     Author     : Marine Veyssiere
 --%>
 
+
 <section>
     <%-- affichage du formulaire pour écrire un message --%>
     <h3>Bienvenu sur le Tchat!</h3>
