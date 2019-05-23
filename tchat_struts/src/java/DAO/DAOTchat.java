@@ -30,6 +30,7 @@ public class DAOTchat extends DAO<Tchat> {
 
             if (rs.first()) {
                 retObj = new Tchat(id,
+                        rs.getTimestamp("date_message"),
                         rs.getString("userName"),
                         rs.getString("message")
                 );
@@ -42,9 +43,8 @@ public class DAOTchat extends DAO<Tchat> {
 
     @Override
     public Tchat create(Tchat obj) {
-
         Tchat rtObj = null;
-        String sql = "INSERT INTO " + table + " (userName, message)" + " VALUES (?, ?)";
+        String sql = "INSERT INTO " + table + " ( userName, message)" + " VALUES (?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, obj.getUserName());
@@ -98,7 +98,8 @@ public class DAOTchat extends DAO<Tchat> {
     public List<Tchat> findAll() {
         ArrayList<Tchat> retObj = new ArrayList<>();
         // faut faire attention aux espaces qui doivent entouré le nom de la table
-        String sql = "SELECT * FROM " + table;
+        String sql = "SELECT * FROM " + table + " WHERE "
+                + "date_message > date_sub(now(), interval 5 minute) ORDER BY date_message DESC";
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             // cette ensemble permet de récuperer tous les objets ayant le bon pstmt
@@ -106,6 +107,7 @@ public class DAOTchat extends DAO<Tchat> {
 
             while (rs.next()) {
                 retObj.add(new Tchat(rs.getInt("id_tchat"),
+                        rs.getTimestamp("date_message"),
                         rs.getString("userName"),
                         rs.getString("message")
                 ));

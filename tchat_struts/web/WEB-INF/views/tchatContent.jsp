@@ -14,7 +14,8 @@
     
     <%--affichage des messages --%>
     <s:iterator value="list">
+        <s:property value="date_message"/>
         <s:property value="userName"/>  <br/>
-        <s:property value="message"/>
+        <s:property value="message"/><br/>
     </s:iterator>
 </section>
