@@ -47,8 +47,10 @@ public class tchatAction extends ActionSupport {
         System.out.println(userName);
         tchat.setMessage(message);
 
+        //lors de la soumission du formulaire, la methode create de la DAO sera appellée
         daoTchat.create(tchat);
 
+        // une liste contenant tous le contenu du tchat sera affiché dans le tchatContent
         list = daoTchat.findAll();
 
         return SUCCESS;
